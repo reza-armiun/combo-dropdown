@@ -1,0 +1,14 @@
+<div class="background" (click)="closeOptions()"></div>
+<div >
+  <div class="input-wrapper">
+    <input #input [(ngModel)]="inputStr" (input)="onInputChange($event)" (click)="openOptions()"  >
+    <button (click)="clearInputStr()">X</button>
+  </div>
+    <div  *ngIf="showOptions$ | async">
+      <app-dropdown-segments-wrapper class="segment-wrapper"
+        [combos]="comboComponents"
+      >
+      </app-dropdown-segments-wrapper>
+
+    </div>
+</div>

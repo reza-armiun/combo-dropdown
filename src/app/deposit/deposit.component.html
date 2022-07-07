@@ -1,0 +1,7 @@
+<div class="deposit" *ngFor="let deposit of deposits" (click)="onClickItem(deposit)">
+  Deposit
+  <div>{{deposit?.iban}}</div>
+  <div>{{deposit?.credit}}</div>
+  <div>{{deposit?.firstName}}</div>
+  <div>{{deposit?.lastName}}</div>
+</div>

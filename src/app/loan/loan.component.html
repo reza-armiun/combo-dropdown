@@ -1,0 +1,8 @@
+<div class="loan" *ngFor="let loan of loans" (click)="onClickItem(loan)">
+  <div class="iban">{{loan?.iban}}</div>
+  <div class="inline-info">
+   <div class="price">Price: {{loan?.price}}</div>
+   <div class="monthes">Month: {{loan?.monthes}}</div>
+  </div>
+  <div class="desc">{{loan?.description}}</div>
+</div>

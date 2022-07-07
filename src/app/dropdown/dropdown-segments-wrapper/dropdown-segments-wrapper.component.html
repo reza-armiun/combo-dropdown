@@ -1,0 +1,16 @@
+<div class="container" >
+
+  <ng-container *ngIf="list$| async">
+    <ng-container *ngIf="(list$ | async) as filteredList">
+
+      <div  *ngFor="let combo of comboComponents ?? [] ">
+        <!--      <app-dropdown-segment [comboComponent]="combo" [dataList]=" (getFilteredList(combo.getType(), combo.getSelectValue(), combo.getSelectValue()) | async) ?? []"-->
+        <!--      ></app-dropdown-segment>-->
+
+        <app-dropdown-segment  [comboComponent]="combo" [dataList]="getItemsByType(filteredList.items, combo.getType())  ?? []"
+        ></app-dropdown-segment>
+      </div>
+    </ng-container>
+  </ng-container>
+
+</div>

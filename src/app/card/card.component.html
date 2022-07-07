@@ -1,0 +1,12 @@
+<!--{{cards[0] | json}}-->
+<div class="card" *ngFor="let card of cards" (click)="onClickItem(card)">
+  Card
+  <div class="card-number">
+    {{card?.cardNumber }}
+  </div>
+  <div class="placeholder">{{card?.placeholder}}</div>
+  <div class="card-details">
+    <div class="cvv2">{{card?.cvv2}}</div>
+    <div class="expire-at">{{card?.expireAt | date}}</div>
+  </div>
+</div>
