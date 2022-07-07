@@ -84,10 +84,7 @@ export class DropdownService {
     this._search$.next(search);
   }
 
-  closeOptions = () => {
-    console.log('close options' )
-    this._showOptions$.next(false);
-  };
+  closeOptions = () => this._showOptions$.next(false)
   openOptions = () => this._showOptions$.next(true);
 
 

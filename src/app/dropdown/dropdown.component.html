@@ -1,4 +1,4 @@
-<div class="background" (click)="closeOptions()"></div>
+<div class="background" *ngIf="(showOptions$ | async)" (click)="closeOptions()"></div>
 <div >
   <div class="input-wrapper">
     <input #input [(ngModel)]="inputStr" (input)="onInputChange($event)" (click)="openOptions()"  >

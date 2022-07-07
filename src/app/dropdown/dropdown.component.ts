@@ -61,9 +61,7 @@ export class DropdownComponent implements  AfterContentInit, ControlValueAccesso
 
   constructor(private dropdownService: DropdownService) {
     // cd.detach();
-    this.showOptions$ =  dropdownService.showOptionsObs$.pipe(
-      tap(value => console.log('showOptions$ ', value))
-    );
+    this.showOptions$ =  dropdownService.showOptionsObs$;
     dropdownService.selectedItem.subscribe((comboValue: ComboValue) => {
       this.setSelectedItem(comboValue);
     })
