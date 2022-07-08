@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, Type} from '
 import {Deposit} from "../model/Deposit";
 import { DEPOSIT_DATA} from "../data/MockData";
 import {ComboEntityComponent} from "../combo-entity/combo-entity.component";
+import {Card} from "../model/Card";
 
 @Component({
   selector: 'app-deposit',
@@ -10,6 +11,7 @@ import {ComboEntityComponent} from "../combo-entity/combo-entity.component";
 })
 export class DepositComponent extends ComboEntityComponent implements OnInit {
   @Input('deposits') deposits: Deposit[] = [];
+  @Input('selectedItem') selectedItem: Deposit | undefined ;
   @Output('onSelectItem') onSelectItem  = new EventEmitter<any>();
 
 
@@ -36,8 +38,8 @@ export class DepositComponent extends ComboEntityComponent implements OnInit {
     return DepositComponent;
   }
 
-  getValidationRegex(): string {
-    return "";
+  getValidationRegex(): RegExp {
+    return /^$|^\d{14}$/;
   }
 
   getDatas(): any[] {
@@ -54,6 +56,11 @@ export class DepositComponent extends ComboEntityComponent implements OnInit {
 
   getOnSelectItemOutputName(): string {
     return 'onSelectItem';
+  }
+  isSelected(deposit: any) {
+    if(!this.selectedItem || !deposit) return false;
+    // @ts-ignore
+    return this.selectedItem[this.getSelectValue()] == deposit[this.getSelectValue()];
   }
 
 }

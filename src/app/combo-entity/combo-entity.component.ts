@@ -13,7 +13,7 @@ export  abstract class ComboEntityComponent  {
   abstract getFilterByValues(): string[];
   abstract getSelectValue(): string;
   abstract onSelectItem: EventEmitter<any> ;
-  abstract getValidationRegex(): string;
+  abstract getValidationRegex(): RegExp;
   abstract getOnSelectItemOutputName(): string;
   constructor( hostElement: ElementRef) {
     hostElement.nativeElement.__component = this;

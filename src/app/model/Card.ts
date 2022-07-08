@@ -3,6 +3,7 @@ import {Type} from "@angular/core";
 
 export class Card  {
   private _id: number;
+  private _imageUrl: string;
   private _cardNumber: number;
   private _placeholder: string;
   private _cvv2: number;
@@ -10,8 +11,9 @@ export class Card  {
   // public __type?: Type<any>;
 
 
-  constructor(id: number, cardNumber: number, placeholder: string, cvv2: number, expireAt: Date) {
+  constructor(id: number, imageUrl: string, cardNumber: number, placeholder: string, cvv2: number, expireAt: Date) {
     this._id = id;
+    this._imageUrl = imageUrl;
     this._cardNumber = cardNumber;
     this._placeholder = placeholder;
     this._cvv2 = cvv2;
@@ -19,7 +21,13 @@ export class Card  {
   }
 
 
+  get imageUrl(): string  {
+    return this._imageUrl;
+  }
 
+  set imageUrl(value: string) {
+    this._imageUrl = value;
+  }
 
   getValue() {
     return this._cardNumber;

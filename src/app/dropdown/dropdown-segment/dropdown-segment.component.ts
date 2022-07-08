@@ -2,16 +2,16 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver, ComponentRef, EventEmitter,
+  ComponentFactoryResolver, ComponentRef, EventEmitter, Injector,
   Input, OnChanges, OnDestroy,
   OnInit,
-  SimpleChanges,
+  SimpleChanges, Type,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import {ComboEntityComponent} from "../../combo-entity/combo-entity.component";
 import {Subscription} from "rxjs";
-import {DropdownService} from "../dropdown.service";
+import {ComboValue, DropdownService} from "../dropdown.service";
 @Component({
   selector: 'app-dropdown-segment',
   templateUrl: './dropdown-segment.component.html',
@@ -24,20 +24,32 @@ export class DropdownSegmentComponent implements OnInit, OnChanges, AfterViewIni
 
 
   sub: Subscription | undefined;
+  selectedItemSub: Subscription | undefined;
   component: ComponentRef<any> | undefined;
+
+  outlet: Type<any>  | undefined;
+  myInjector: Injector | undefined;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver
               , private dropdownService: DropdownService
-              , private cd: ChangeDetectorRef) {
+              , private cd: ChangeDetectorRef
+              ,private  injector: Injector) {
     cd.detach();
+
+
   }
 
   ngOnInit(): void {
+
     this.cd.detectChanges();
   }
 
 
   ngAfterViewInit(): void {
+    //   this.outlet = this.comboComponent?.getType();
+    //   this.myInjector = Injector.create({providers: [{provide: INPUTS, useValue: this.dataList}], parent: this.injector});
+    // this.cd.detectChanges()
+
     if (!this.container || !this.comboComponent ) return;
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.comboComponent?.getType());
     // @ts-ignore
@@ -45,12 +57,23 @@ export class DropdownSegmentComponent implements OnInit, OnChanges, AfterViewIni
     // @ts-ignore
     let inputName = this.comboComponent.getInputName();
     this.component.instance[inputName] = this.dataList;
+
     let outputElement = this.component.instance[this.comboComponent.getOnSelectItemOutputName()] as EventEmitter<any>;
     this.sub = outputElement.asObservable()
       .subscribe(item => {
         if(this.comboComponent?.getSelectValue())
           this.dropdownService.selectItem({item: item, inputStr: item[this.comboComponent?.getSelectValue()]});
+          this.dropdownService.closeOptions();
       });
+
+    this.selectedItemSub = this.dropdownService.selectedItem.subscribe((selectedItem: ComboValue) => {
+      if(selectedItem) {
+          if(this.component){
+            this.component.instance['selectedItem'] = selectedItem.item;
+          }
+      }
+    });
+
     this.cd.detectChanges();
   }
 
@@ -64,6 +87,7 @@ export class DropdownSegmentComponent implements OnInit, OnChanges, AfterViewIni
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+    this.selectedItemSub?.unsubscribe();
   }
 
 }

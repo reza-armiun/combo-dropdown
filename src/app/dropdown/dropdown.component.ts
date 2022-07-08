@@ -1,8 +1,8 @@
 import {
   AfterContentInit,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  ContentChildren, ElementRef,
+  ContentChildren, ElementRef, Input,
   QueryList,
   ViewChild,
 } from '@angular/core';
@@ -17,8 +17,7 @@ import {
   Validator
 } from "@angular/forms";
 import {ComboValue, DropdownService} from "./dropdown.service";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+import {Observable, tap} from "rxjs";
 
 @Component({
   selector: 'app-dropdown',
@@ -45,10 +44,13 @@ export class DropdownComponent implements  AfterContentInit, ControlValueAccesso
 
   comboComponents: ComboEntityComponent[] | undefined = [];
   showOptions$: Observable<any> ;
+  error$: Observable<boolean> ;
 
   inputStr: any = '';
 
   initialValue: any;
+
+
 
 
   onChange = (value: ComboValue) => {};
@@ -57,11 +59,13 @@ export class DropdownComponent implements  AfterContentInit, ControlValueAccesso
 
   touched = false;
 
-  disabled = false;
+  @Input('disabled')disabled = false;
 
-  constructor(private dropdownService: DropdownService) {
-    // cd.detach();
+  constructor(private dropdownService: DropdownService, private cd: ChangeDetectorRef) {
     this.showOptions$ =  dropdownService.showOptionsObs$;
+    this.error$ = dropdownService.errorObs$.pipe(
+      tap(_ =>  this.cd.detectChanges())
+    );
     dropdownService.selectedItem.subscribe((comboValue: ComboValue) => {
       this.setSelectedItem(comboValue);
     })
@@ -74,16 +78,23 @@ export class DropdownComponent implements  AfterContentInit, ControlValueAccesso
     })
     if(this.initialValue) {
       let item = this.dropdownService.findItemByValue(this.initialValue, this.comboComponents);
-      this.setSelectedItem({item: item, inputStr: this.initialValue})
+      this.dropdownService.selectItem({item: item, inputStr: this.initialValue})
+
+      // this.setSelectedItem({item: item, inputStr: this.initialValue})
     }
+    let validators = this.comboComponents?.reduce((accum : any[], combo) => {
+      return [...accum, combo.getValidationRegex()];
+    } ,[]);
+    this.dropdownService.setValidators(validators ?? []);
   }
 
   setSelectedItem(selectedItem: ComboValue) {
     this.markAsTouched();
     this.onChange(selectedItem);
     this.inputStr = selectedItem.inputStr;
-
-    this.dropdownService.closeOptions();
+    this.dropdownService.setSearch({searchString: selectedItem.inputStr, key: null})
+    // this.dropdownService.closeOptions();
+    this.dropdownService.setError(false);
   }
   onInputChange(event: Event) {
     this.dropdownService.openOptions();
@@ -106,10 +117,10 @@ export class DropdownComponent implements  AfterContentInit, ControlValueAccesso
 
 
   clearInputStr() {
-    this.inputStr = ''
+    this.inputStr = '';
+    this.dropdownService.setSearch({searchString:'', key:''})
+    this.dropdownService.selectItem({item: null, inputStr: ''})
   }
-
-
 
 
   markAsTouched() {
@@ -128,12 +139,17 @@ export class DropdownComponent implements  AfterContentInit, ControlValueAccesso
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    return null;
+    let error = this.dropdownService.error;
+    return error ? {
+      invalidInput: true
+    } : null;
   }
 
   writeValue(value: any): void {
       this.initialValue = value;
   }
-
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 
 }

@@ -12,12 +12,12 @@ export class AppComponent {
   title = 'acc-info-dropdown';
 
   form = this.fb.group({
-    combo: [147812418412, []],
+    // combo: [{value: 147812418412, disabled: true}, []],
+    combo: [{value: 147812418412, disabled: false}, []],
     combo2: ['', []]
   })
 
-  constructor(private fb: FormBuilder) {
-  }
+  constructor(private fb: FormBuilder) {}
 
 
 

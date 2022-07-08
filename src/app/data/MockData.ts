@@ -9,9 +9,15 @@ export const DEPOSIT_DATA = [
 ];
 
 export const CARD_DATA = [
-  new Card(4, 147812418412, 'placeholder1', 123, new Date()),
-  new Card(5, 448484894848, 'placeholder2', 124, new Date()),
-  new Card(6, 231231231231, 'placeholder3', 125, new Date()),
+  new Card(4 ,
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYrS-fMYn5qj9wkNH9JABZ2qeWIrJqAxGk8A&usqp=CAU'
+    , 147812418412, 'placeholder1', 123, new Date()),
+  new Card(5,
+    'https://freesvg.org/img/id-card.png'
+    ,448484894848, 'placeholder2', 124, new Date()),
+  new Card(6,
+    'https://www.pngkey.com/png/full/780-7802245_png-file-svg-card-outline.png'
+    ,231231231231, 'placeholder3', 125, new Date()),
 ];
 
 export const LOAN_DATA = [

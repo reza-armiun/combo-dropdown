@@ -1,14 +1,16 @@
 <div class="background" *ngIf="(showOptions$ | async)" (click)="closeOptions()"></div>
-<div >
-  <div class="input-wrapper">
-    <input #input [(ngModel)]="inputStr" (input)="onInputChange($event)" (click)="openOptions()"  >
-    <button (click)="clearInputStr()">X</button>
-  </div>
-    <div  *ngIf="showOptions$ | async">
-      <app-dropdown-segments-wrapper class="segment-wrapper"
-        [combos]="comboComponents"
-      >
-      </app-dropdown-segments-wrapper>
-
-    </div>
+<div class="input-wrapper" [class.error]="(error$ | async)">
+  <input [disabled]="disabled" #input [(ngModel)]="inputStr" (input)="onInputChange($event)" (click)="openOptions()">
+  <button [disabled]="disabled" (click)="clearInputStr()">X</button>
 </div>
+<div *ngIf="error$ | async" [class.red]="(error$ | async)">Invalid input</div>
+<!--<div *ngIf="showOptions$ | async">-->
+<div [style.display]="(showOptions$ | async) ? 'initial' : 'none'">
+  <app-dropdown-segments-wrapper class="segment-wrapper"
+                                 [combos]="comboComponents"
+  >
+  </app-dropdown-segments-wrapper>
+</div>
+
+
+

@@ -2,14 +2,16 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, Type} from '
 import {Loan} from "../model/Loan";
 import { LOAN_DATA} from "../data/MockData";
 import {ComboEntityComponent} from "../combo-entity/combo-entity.component";
+import {Card} from "../model/Card";
 
 @Component({
   selector: 'app-loan',
   templateUrl: './loan.component.html',
-  styleUrls: ['./loan.component.scss']
+  styleUrls: ['./loan.component.scss'],
 })
 export class LoanComponent extends ComboEntityComponent implements OnInit {
   @Input('loans') loans: Loan[] = [];
+  @Input('selectedItem') selectedItem: Card | undefined ;
   @Output('onSelectItem') onSelectItem  = new EventEmitter<any>();
 
 
@@ -37,8 +39,8 @@ export class LoanComponent extends ComboEntityComponent implements OnInit {
     return LoanComponent;
   }
 
-  getValidationRegex(): string {
-    return "";
+  getValidationRegex(): RegExp {
+    return /^$|^\d{13}$/;
   }
 
   getDatas(): any[] {
@@ -54,6 +56,10 @@ export class LoanComponent extends ComboEntityComponent implements OnInit {
   getOnSelectItemOutputName(): string {
     return 'onSelectItem';
   }
-
+  isSelected(loan: any) {
+    if(!this.selectedItem || !loan) return false;
+    // @ts-ignore
+    return this.selectedItem[this.getSelectValue()] == loan[this.getSelectValue()];
+  }
 
 }

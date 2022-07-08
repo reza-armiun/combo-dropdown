@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { LoanComponent } from './loan/loan.component';
 import { DepositComponent } from './deposit/deposit.component';
-import { CardComponent } from './card/card.component';
+import {CardComponent, INPUTS} from './card/card.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { FilterPipe } from './filter.pipe';
 import { ComboEntityDirective } from './combo-entity.directive';
@@ -13,6 +13,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { DropdownSegmentComponent } from './dropdown/dropdown-segment/dropdown-segment.component';
 import { DropdownSegmentsWrapperComponent } from './dropdown/dropdown-segments-wrapper/dropdown-segments-wrapper.component';
 import { TmpCardComponent } from './tmp-card/tmp-card.component';
+import {CARD_DATA} from "./data/MockData";
 
 @NgModule({
   declarations: [

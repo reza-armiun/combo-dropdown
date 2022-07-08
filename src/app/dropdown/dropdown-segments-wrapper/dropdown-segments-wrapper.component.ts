@@ -21,7 +21,7 @@ export class DropdownSegmentsWrapperComponent implements OnInit, OnChanges {
 
   dataList$: Observable<any[]> ;
   search$: Observable<Search>;
-  list$ : Observable<FilteredResult> | undefined;
+  filteredList$ : Observable<FilteredResult> | undefined;
 
 
   constructor(private dropdownService: DropdownService) {
@@ -35,7 +35,7 @@ export class DropdownSegmentsWrapperComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(this.comboComponents?.length) {
-      this.list$ = this.getList();
+      this.filteredList$ = this.getList();
     }
   }
 
@@ -44,7 +44,7 @@ export class DropdownSegmentsWrapperComponent implements OnInit, OnChanges {
     return combineLatest([this.dataList$, this.search$])
       .pipe(
         switchMap(([items, search]) => {
-          if(!search.searchString.length) {
+          if(!search.searchString) {
             let result: FilteredResult = {items: items, search};
             return of(result);
           }
@@ -62,8 +62,16 @@ export class DropdownSegmentsWrapperComponent implements OnInit, OnChanges {
             let comboComp = this.comboComponents?.find(combo => combo.getType().name == item.__type);
             if(comboComp && search.key ) {
               let selectedItem = {inputStr: item[comboComp.getSelectValue()], item: item};
+              this.dropdownService.setSearch({searchString: selectedItem.inputStr, key: null});
               this.dropdownService.selectItem(selectedItem);
+              this.dropdownService.closeOptions();
             }
+          }
+          else {
+            if(items.length > 1 && !search.searchString )
+              setTimeout(() => {
+                this.dropdownService.clearSelection();
+              },);
           }
         })
       );

@@ -1,4 +1,7 @@
-
+.selected {
+  border: 5px solid springgreen !important;
+  box-shadow: 1px 1px 6px -1px green;
+}
 .card {
   cursor: pointer;
   user-select: none;
@@ -12,7 +15,12 @@
   column-gap: 8px;
   background-color: rgba(128, 128, 128,1);
   color: white;
-
+  .card__image img{
+    margin: 0;
+    padding: 0;
+    max-width: 150px;
+    object-fit: scale-down;
+  }
   .card-number {
     justify-self: center;
   }

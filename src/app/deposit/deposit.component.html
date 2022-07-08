@@ -1,4 +1,7 @@
-<div class="deposit" *ngFor="let deposit of deposits" (click)="onClickItem(deposit)">
+<h4 style="text-align: center;margin: 5px 0">Deposits</h4>
+<div class="deposit"
+     [class.selected]="isSelected(deposit)"
+     *ngFor="let deposit of deposits" (click)="onClickItem(deposit)">
   Deposit
   <div>{{deposit?.iban}}</div>
   <div>{{deposit?.credit}}</div>

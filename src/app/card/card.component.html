@@ -1,12 +1,17 @@
-<!--{{cards[0] | json}}-->
-<div class="card" *ngFor="let card of cards" (click)="onClickItem(card)">
+<h4 style="text-align: center;margin: 5px 0">Cards</h4>
+<div class="card"
+     [class.selected]="isSelected(card)"
+     *ngFor="let card of cards" (click)="onClickItem(card)" >
   Card
+  <div class="card__image" *ngIf="card?.imageUrl">
+    <img [src]="card?.imageUrl">
+  </div>
   <div class="card-number">
     {{card?.cardNumber }}
   </div>
   <div class="placeholder">{{card?.placeholder}}</div>
   <div class="card-details">
     <div class="cvv2">{{card?.cvv2}}</div>
-    <div class="expire-at">{{card?.expireAt | date}}</div>
+    <div  class="expire-at">{{card?.expireAt | date}}</div>
   </div>
 </div>

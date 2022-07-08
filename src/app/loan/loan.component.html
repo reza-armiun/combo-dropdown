@@ -1,4 +1,7 @@
-<div class="loan" *ngFor="let loan of loans" (click)="onClickItem(loan)">
+<h4 style="text-align: center;margin: 5px 0">Loans</h4>
+<div class="loan"
+     [class.selected]="isSelected(loan)"
+     *ngFor="let loan of loans" (click)="onClickItem(loan)">
   <div class="iban">{{loan?.iban}}</div>
   <div class="inline-info">
    <div class="price">Price: {{loan?.price}}</div>

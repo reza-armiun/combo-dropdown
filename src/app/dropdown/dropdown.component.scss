@@ -1,5 +1,6 @@
 .input-wrapper {
-  max-width: 250px;
+  width: 250px;
+  max-width: 550px;
   padding: 10px 15px;
   border-radius: 8px;
   border: 1px solid rgba(128, 128, 128, 0.2);
@@ -8,6 +9,7 @@
   align-items: center;
   position: relative;
   z-index: 20;
+
   input {
     //border: 1px solid rgba(128, 128, 128, 0.2);
     border: none;
@@ -32,8 +34,10 @@
   }
 }
 .segment-wrapper {
+  margin-top: 6px;
   position: absolute;
   z-index: 21;
+  background-color: white;
 }
 .background {
   top: 0;
@@ -44,3 +48,11 @@
   z-index: 20;
 }
 
+.error {
+  border: 1px solid red;
+  box-shadow: 0px 0px 4px -1px rgba(255, 0, 0, 1) !important;
+}
+.red {
+  color: red;
+  text-shadow:0px 0px 4px -1px rgba(255, 0, 0, 1) ;
+}
